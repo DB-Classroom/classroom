@@ -25,7 +25,7 @@ def RegisterView(request):
         return Response(resp, status=status.HTTP_201_CREATED)
     else:
         resp["errors"] = ser.errors
-        return Response(resp, status=status.HTTP_400_BAD_REQUEST)
+        return Response(resp, status=status.HTTP_200_OK)
 
 
 @api_view(["POST"])
@@ -44,7 +44,7 @@ def GoogleRegisterView(request):
         return Response(resp, status=status.HTTP_201_CREATED)
     else:
         resp["errors"] = ser.errors
-        return Response(resp, status=status.HTTP_400_BAD_REQUEST)
+        return Response(resp, status=status.HTTP_200_OK)
 
 
 @api_view(["POST"])
@@ -68,7 +68,7 @@ def LoginView(request):
     else:
         data["errors"] = ser.errors
         data["errors"]["description"] = "Invaild Email / Password. Try again"
-        return Response(data, status=status.HTTP_400_BAD_REQUEST)
+        return Response(data, status=status.HTTP_200_OK)
 
 
 @api_view(["POST"])
@@ -84,31 +84,32 @@ def GoogleLoginView(request):
         user = ser.validated_data.get("auth_token")
         data["success"] = True
         if not user.is_verified:
-            user.is_verified= True
+            user.is_verified = True
             user.save()
         data["tokens"] = user.token()
         return Response(data, status=status.HTTP_200_OK)
     else:
         data["errors"] = ser.errors
-        return Response(data, status=status.HTTP_400_BAD_REQUEST)
+        return Response(data, status=status.HTTP_200_OK)
+
 
 @api_view(["POST"])
 @authentication_classes([StaticTokenAuthentication])
 def ResendOTP(request):
     data = {
         "success": False,
-        "otp":0,
-        "errors":{}
+        "otp": 0,
+        "errors": {}
     }
     email = request.data.get("email", None)
-    if email!=None:
+    if email != None:
         try:
             validate_email(email)
-            data["otp"]=sendMail(email)
-            data["success"]=True
+            data["otp"] = sendMail(email)
+            data["success"] = True
         except Exception as e:
-            data["errors"]={"email":list(e)}
+            data["errors"] = {"email": list(e)}
     else:
-        data["errors"]={"email":["This field is required."]}
+        data["errors"] = {"email": ["This field is required."]}
 
-    return Response(data, status=status.HTTP_400_BAD_REQUEST)
+    return Response(data, status=status.HTTP_200_OK)

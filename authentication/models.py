@@ -4,11 +4,12 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, Permis
 
 
 class UserManager(BaseUserManager):
-    def create_user(self, email, password=None):
+    def create_user(self, email, password=None, first_name="", last_name=""):
         if email is None:
             raise TypeError("Users should have email")
 
-        user = self.model(email=self.normalize_email(email), password=password)
+        user = self.model(email=self.normalize_email(
+            email), password=password, first_name=first_name, last_name=last_name)
         user.set_password(password)
         user.save()
         return user
@@ -38,6 +39,10 @@ class User(AbstractBaseUser, PermissionsMixin):
     updated_at = models.DateTimeField(auto_now=True)
     provider = models.CharField(
         max_length=20, choices=PROVIDER, default=PROVIDER[0][0])
+    first_name = models.CharField(
+        max_length=20, default="")
+    last_name = models.CharField(
+        max_length=20, default="")
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []

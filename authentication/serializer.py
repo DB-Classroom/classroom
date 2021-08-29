@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import BasicDetails, User
+from .models import User
 from .google import Google
 from django.db import transaction
 from .mail import sendMail
@@ -8,10 +8,14 @@ from .mail import sendMail
 class RegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(
         min_length=5, max_length=15, write_only=True)
+    first_name = serializers.CharField(
+        max_length=20)
+    last_name = serializers.CharField(
+        max_length=20)
 
     class Meta:
         model = User
-        fields = ["email", "password"]
+        fields = ["email", "password", "first_name", "last_name"]
         extra_kwargs = {
             'email': {'validators': []},
         }
@@ -41,12 +45,13 @@ class GoogleRegisterSerializer(serializers.Serializer):
                 "%s is already register with us" % user_data['email'])
         try:
             with transaction.atomic():
-                user = User.objects.create_user(email=user_data["email"])
-                user.is_verified = True
                 first_name = user_data["given_name"]
                 last_name = user_data["family_name"]
-                BasicDetails.objects.create(
-                    first_name=first_name, last_name=last_name, user=user)
+                user = User.objects.create_user(
+                    email=user_data["email"], first_name=first_name, last_name=last_name)
+                user.is_verified = True
+                # BasicDetails.objects.create(
+                #     first_name=first_name, last_name=last_name, user=user)
                 user.provider = "Google"
                 user.save()
                 return user
