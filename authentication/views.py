@@ -65,8 +65,6 @@ def LoginView(request):
         data["is_verified"] = user.is_verified
         data["tokens"] = user.token()
         if not user.is_verified:
-            user.is_active = True
-            user.save()
             data["otp"] = sendMail(user.email)
         return Response(data, status=status.HTTP_200_OK)
     else:
@@ -89,7 +87,6 @@ def GoogleLoginView(request):
         data["success"] = True
         if not user.is_verified:
             user.is_verified = True
-            user.is_active = True
             user.save()
         data["tokens"] = user.token()
         return Response(data, status=status.HTTP_200_OK)
