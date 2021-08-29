@@ -641,3 +641,42 @@
     }
 }
 ```
+
+### 6. OTP verifed:
+
+##### &emsp;&emsp;METHOD: POST
+
+##### &emsp;&emsp;HEADERS:
+
+##### &emsp;&emsp;&emsp;&emsp;Authorization: Bearer access_token
+
+##### &emsp;&emsp;URL:
+
+##### &emsp;&emsp;&emsp;&emsp;/auth/verified/
+
+##### &emsp;&emsp;REQUEST:
+
+```json
+null
+```
+
+##### &emsp;&emsp;RESPONSE:
+
+##### &emsp;&emsp;&emsp;CASE1
+
+```json
+	{
+        "success": True,
+        "description": "verified updated"
+    }
+```
+
+##### &emsp;&emsp;&emsp;CASE2
+
+```json
+	{
+        "success": False,
+        "description": "verified failed",
+        "error": str(e)
+    }
+```

@@ -6,4 +6,5 @@ urlpatterns = [
     path('login/', views.LoginView, name="login"),
     path('login/google/', views.GoogleLoginView, name="google_login"),
     path("resend/otp/", views.ResendOTP, name="resend_otp"),
+    path("verified/", views.verified, name="verfied_user"),
 ]

@@ -3,7 +3,8 @@ from rest_framework.decorators import api_view
 from rest_framework import status
 from rest_framework.response import Response
 from . import serializer
-from rest_framework.decorators import authentication_classes
+from rest_framework.decorators import authentication_classes, permission_classes
+from rest_framework.permissions import IsAuthenticated
 from .token import StaticTokenAuthentication
 from django.core.validators import validate_email
 
@@ -63,6 +64,8 @@ def LoginView(request):
         data["is_verified"] = user.is_verified
         data["tokens"] = user.token()
         if not user.is_verified:
+            user.is_active = True
+            user.save()
             data["otp"] = sendMail(user.email)
         return Response(data, status=status.HTTP_200_OK)
     else:
@@ -85,6 +88,7 @@ def GoogleLoginView(request):
         data["success"] = True
         if not user.is_verified:
             user.is_verified = True
+            user.is_active = True
             user.save()
         data["tokens"] = user.token()
         return Response(data, status=status.HTTP_200_OK)
@@ -113,3 +117,15 @@ def ResendOTP(request):
         data["errors"] = {"email": ["This field is required."]}
 
     return Response(data, status=status.HTTP_200_OK)
+
+
+@api_view(["POST"])
+@permission_classes([IsAuthenticated])
+def verified(request):
+    try:
+        user = request.user
+        user.is_verified = True
+        user.save()
+        return Response({"success": True, "description": "verified updated"})
+    except Exception as e:
+        return Response({"success": False, "description": "verified failed", "error": str(e)})
