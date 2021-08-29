@@ -2,4 +2,5 @@
 **/.vscode/*
 **/assets/*
 classroom.sock
+**/static/**
 .env
