@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
+import certifi
 from datetime import timedelta
 import os
 from pathlib import Path
@@ -41,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     "authentication",
+    "subject",
 
     # Required packages,
     "rest_framework",
@@ -86,18 +88,29 @@ WSGI_APPLICATION = 'classroom.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
+# DATABASE_ROUTERS = ['subject.mongo_router.MongoRouter']
+# DATABASE_APPS_MAPPING = {'subject': 'mongo', }
 DATABASES = {
+    # 'default': {
+    #     'NAME': 'classroom_accounts',
+    #     'ENGINE': 'django.db.backends.postgresql',
+    #     'USER': 'postgres',
+    #     'PASSWORD': 'root',
+    #     "HOST": "127.0.0.1",
+    #     "PORT": "5432"
+    # },
+    # 'default': {
+    #     'ENGINE': 'djongo',
+    #     'NAME': 'classroom'
+    # }
     'default': {
-        'NAME': 'classroom_accounts',
-        'ENGINE': 'django.db.backends.postgresql',
-        'USER': 'postgres',
-        'PASSWORD': 'root',
-        "HOST": "127.0.0.1",
-        "PORT": "5432"
-    },
-    'mongo': {
         'ENGINE': 'djongo',
-        'NAME': 'classroom'
+        'NAME': 'Cluster0',
+        'ENFORCE_SCHEMA': False,
+        'CLIENT': {
+            'host': "mongodb+srv://root:root@cluster0.8nwdd.mongodb.net/classroom?retryWrites=true&w=majority",
+            "tlsCAFile": certifi.where()
+        }
     }
 }
 

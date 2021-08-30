@@ -1,4 +1,4 @@
-from django.db import models
+from djongo import models
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 
@@ -58,21 +58,3 @@ class User(AbstractBaseUser, PermissionsMixin):
             "access_token": str(token.access_token),
             "refresh": str(token)
         }
-
-
-class BasicDetails(models.Model):
-    first_name = models.CharField(max_length=30)
-    last_name = models.CharField(max_length=30)
-    mobile_number = models.CharField(
-        max_length=25, default=None, null=True, blank=True)
-    is_number_verified = models.BooleanField(default=False)
-    is_number_public = models.BooleanField(default=False)
-    notification_via_wa = models.BooleanField(default=False)
-    location = models.CharField(
-        max_length=20, default=None, null=True, blank=True)
-    headline = models.TextField(default=None, null=True, blank=True)
-    profile_summary = models.TextField(default=None, null=True, blank=True)
-    user = models.OneToOneField("User", on_delete=models.CASCADE)
-
-    def __str__(self) -> str:
-        return "%s %s" % (self.first_name, self.last_name)
