@@ -1,0 +1,26 @@
+HEADER: 
+    Authorization: Bearer access_token
+
+# dashboard
+METHOD : get
+URL: /api/dashboard/
+FIELDS:
+    Null
+
+# create room
+METHOD: POST
+URL: /api/classroom/create/
+FIELDS:
+    subject_name: "string",
+    image: "url r blob"
+
+
+# add student
+METHOD: POST
+URL: /api/student/create/
+FIELDS:
+    room: "string -6" 6digit code 
+
+
+
+

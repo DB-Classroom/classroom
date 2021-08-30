@@ -33,3 +33,4 @@ class MultiDBModelAdmin(admin.ModelAdmin):
 #     model = models.ClassRoom
 
 admin.site.register(models.ClassRoom)
+admin.site.register(models.Student)

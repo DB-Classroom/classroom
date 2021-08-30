@@ -99,19 +99,19 @@ DATABASES = {
     #     "HOST": "127.0.0.1",
     #     "PORT": "5432"
     # },
-    # 'default': {
-    #     'ENGINE': 'djongo',
-    #     'NAME': 'classroom'
-    # }
     'default': {
         'ENGINE': 'djongo',
-        'NAME': 'Cluster0',
-        'ENFORCE_SCHEMA': False,
-        'CLIENT': {
-            'host': "mongodb+srv://root:root@cluster0.8nwdd.mongodb.net/classroom?retryWrites=true&w=majority",
-            "tlsCAFile": certifi.where()
-        }
+        'NAME': 'classroom'
     }
+    # 'default': {
+    #     'ENGINE': 'djongo',
+    #     'NAME': 'Cluster0',
+    #     'ENFORCE_SCHEMA': False,
+    #     'CLIENT': {
+    #         'host': "mongodb+srv://root:root@cluster0.8nwdd.mongodb.net/classroom?retryWrites=true&w=majority",
+    #         "tlsCAFile": certifi.where()
+    #     }
+    # }
 }
 
 

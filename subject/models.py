@@ -5,8 +5,7 @@ from uuid import uuid4
 
 
 class ClassRoom(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid4)
-    code = models.CharField(max_length=6,
+    code = models.CharField(primary_key=True, max_length=6,
                             default=get_random_string(6))
     teacher = models.ForeignKey(User, on_delete=models.CASCADE)
     subject_name = models.CharField(max_length=255)
@@ -14,9 +13,6 @@ class ClassRoom(models.Model):
 
     def __str__(self) -> str:
         return self.subject_name
-
-    class Meta:
-        app_label = "subject"
 
 
 class Student(models.Model):
@@ -30,4 +26,7 @@ class Student(models.Model):
     join_at = models.TimeField(auto_created=True, auto_now=True)
 
     def __str__(self) -> str:
-        return self.student.name + "-" + self.room.subject_name
+        return self.student.email + "-" + self.room.subject_name
+
+    class Meta:
+        unique_together = ("student", "room")
