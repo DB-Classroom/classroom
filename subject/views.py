@@ -61,7 +61,7 @@ def dashboard(request: HttpRequest):
     resp.data["class_rooms"] = serializer.ClassRoomSerializer(
         user.classroom_set.all(), many=True).data
     resp.data["subjects"] = []
-
+    resp.success = True
     for x in user.student_set.all():
         resp.data["subjects"].append(
             serializer.ClassRoomSerializer(x.room).data)
