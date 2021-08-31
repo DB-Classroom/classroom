@@ -21,7 +21,7 @@ class ResponseObject:
 @permission_classes([IsAuthenticated])
 def createClassroom(request: HttpRequest):
     resp = ResponseObject()
-    req = request.data
+    req = dict(request.data)
     req["teacher"] = request.user.id
     ser = serializer.ClassRoomSerializer(data=req)
     if ser.is_valid():
@@ -39,7 +39,7 @@ def createClassroom(request: HttpRequest):
 @permission_classes([IsAuthenticated])
 def createStudent(request: HttpRequest):
     resp = ResponseObject()
-    req = request.data
+    req = dict(request.data)
     req["student"] = request.user.id
     ser = serializer.StudentAddSerializer(data=req)
     if ser.is_valid():
