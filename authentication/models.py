@@ -65,6 +65,6 @@ class User(AbstractBaseUser, PermissionsMixin):
             "id": self.id,
             "email": self.email,
             "first_name": self.first_name,
-            "second_name": self.second_name,
+            "last_name": self.last_name,
             "provdier": self.provider
         }
